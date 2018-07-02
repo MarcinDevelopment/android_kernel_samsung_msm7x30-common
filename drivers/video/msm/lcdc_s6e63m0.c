@@ -93,7 +93,7 @@
 
 // brightness tuning
 #define MAX_BRIGHTNESS_LEVEL 255
-#define LOW_BRIGHTNESS_LEVEL 20
+#define LOW_BRIGHTNESS_LEVEL 10
 #define DEFAULT_GAMMA_LEVEL GAMMA_160CD
 // static DEFINE_SPINLOCK(bl_ctrl_lock);
 
@@ -324,8 +324,8 @@ static void spi_init(void)
 }
 
 static struct regulator_bulk_data s6e63m0_regs[] = {
-	{ .supply = "ldo17", .min_uV = 1800000, .max_uV = 1800000},
-	{ .supply = "ldo15", .min_uV = 3000000, .max_uV = 3000000},
+	{ .supply = "ldo17", .min_uV = 1700000, .max_uV = 1700000},
+	{ .supply = "ldo15", .min_uV = 2800000, .max_uV = 2800000},
 };
 
 static int s6e63m0_regulators_init(void)
@@ -635,12 +635,36 @@ static int get_gamma_value_from_bl(int bl)
 	  only supported from 0 to 24 */
 
 	switch (bl) {
+#if defined(CONFIG_MACH_ARIESVE)
+	case 0 ... 5:
+		gamma_value = GAMMA_00_3CD;
+		break;
+	case 6 ... 12:
+		gamma_value = GAMMA_00_2CD;
+		break;
+	case 13 ... 19:
+		gamma_value = GAMMA_00_1CD;
+		break;
+	case 20 ... 26:
+		gamma_value = GAMMA_00CD;
+		break;
+	case 27 ... 29:
+		gamma_value = GAMMA_10CD;
+		break;
+	case 30 ... 36:
+		gamma_value = GAMMA_20CD;
+		break;
+	case 37 ... 39:
+		gamma_value = GAMMA_30CD;
+		break;
+#else
 	case 0 ... 29:
 		gamma_value = GAMMA_20CD;
 		break;
 	case 30 ... 39:
 		gamma_value = GAMMA_30CD;
 		break;
+#endif
 	case 40 ... 49:
 		gamma_value = GAMMA_40CD;
 		break;
