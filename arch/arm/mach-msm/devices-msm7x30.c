@@ -1316,18 +1316,20 @@ struct resource kgsl_3d0_resources[] = {
 	},
 };
 
+
 static struct kgsl_device_platform_data kgsl_3d0_pdata = {
+/* Adreno 205 is able to handle up to ~380MHz, so it's a safe clocktable (I think) */
 	.pwrlevel = {
 		{
-			.gpu_freq = 245760000,
-			.bus_freq = 192000000,
+			.gpu_freq = 275000000,
+			.bus_freq = 200000000,
 		},
 		{
-			.gpu_freq = 192000000,
+			.gpu_freq = 245760000,
 			.bus_freq = 152000000,
 		},
 		{
-			.gpu_freq = 192000000,
+			.gpu_freq = 245760000,
 			.bus_freq = 0,
 		},
 	},
